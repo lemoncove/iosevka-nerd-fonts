@@ -15,7 +15,7 @@ for (
         .map((entry) => join("work/output", directory, entry.name))
         .sort();
 
-    const entries = await Promise.all(patched.map(async path => ({
+    const entries = await Promise.all(patched.map(async (path) => ({
         name: basename(path),
         data: await Deno.readFile(path),
     })));

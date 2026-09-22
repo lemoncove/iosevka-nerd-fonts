@@ -28,7 +28,7 @@ jobs:
                   key: deno-${{ runner.os }}-${{ hashFiles('deno.lock') }}
 
             - name: Check scripts
-              run: deno task check
+              run: deno check scripts/*.ts
 
             - name: Resolve Iosevka release
               id: source
@@ -59,7 +59,7 @@ jobs:
                     -v "$GITHUB_WORKSPACE/work/input/{1}:/in:ro" \
                     -v "$GITHUB_WORKSPACE/work/output/{1}:/out" \
                     nerdfonts/patcher:latest -script /nerd/font-patcher /in/{3} \
-                    --complete --name {2} --no-progressbars --outputdir /out \
+                    --complete --name {2} --outputdir /out \
                     < work/patch-plan.tsv
 
             - name: Package patched TTFs

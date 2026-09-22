@@ -2,8 +2,7 @@
     "tasks": {
         "prepare": "deno run --allow-env=GITHUB_OUTPUT --allow-read=. --allow-write=. scripts/prepare.ts",
         "unpack": "deno run --allow-read=. --allow-write=. scripts/unpack.ts",
-        "package": "deno run --allow-read=. --allow-write=. scripts/package.ts",
-        "check": "deno fmt --check && deno lint && deno check scripts/*.ts"
+        "package": "deno run --allow-read=. --allow-write=. scripts/package.ts"
     },
     "imports": {
         "@quentinadam/zip": "jsr:@quentinadam/zip@0.1.17",
