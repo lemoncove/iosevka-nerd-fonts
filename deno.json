@@ -1,0 +1,31 @@
+{
+    "tasks": {
+        "prepare": "deno run --allow-env=GITHUB_OUTPUT --allow-read=. --allow-write=. scripts/prepare.ts",
+        "unpack": "deno run --allow-read=. --allow-write=. scripts/unpack.ts",
+        "package": "deno run --allow-read=. --allow-write=. scripts/package.ts",
+        "check": "deno fmt --check && deno lint && deno check scripts/*.ts"
+    },
+    "imports": {
+        "@quentinadam/zip": "jsr:@quentinadam/zip@0.1.17",
+        "@std/path": "jsr:@std/path@1.1.2"
+    },
+    "fmt": {
+        "bracePosition": "sameLine",
+        "indentWidth": 4,
+        "lineWidth": 256,
+        "nextControlFlowPosition": "sameLine",
+        "operatorPosition": "nextLine",
+        "proseWrap": "never",
+        "quoteProps": "consistent",
+        "semiColons": true,
+        "singleBodyPosition": "sameLine",
+        "singleQuote": false,
+        "sortNamedExports": "caseInsensitive",
+        "sortNamedImports": "caseInsensitive",
+        "spaceAround": false,
+        "spaceSurroundingProperties": true,
+        "trailingCommas": "onlyMultiLine",
+        "typeLiteral.separatorKind": "semiColon",
+        "useBraces": "always"
+    }
+}
