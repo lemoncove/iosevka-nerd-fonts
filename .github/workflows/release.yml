@@ -59,7 +59,7 @@ jobs:
                     -v "$GITHUB_WORKSPACE/work/input/{1}:/in:ro" \
                     -v "$GITHUB_WORKSPACE/work/output/{1}:/out" \
                     nerdfonts/patcher:latest -script /nerd/font-patcher /in/{3} \
-                    --complete --name {2} --outputdir /out \
+                    --complete --name {2} --quiet --outputdir /out \
                     < work/patch-plan.tsv
 
             - name: Package patched TTFs
