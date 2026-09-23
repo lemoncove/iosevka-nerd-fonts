@@ -5,8 +5,8 @@
         "package": "deno run --allow-read --allow-write scripts/package.ts"
     },
     "imports": {
-        "@quentinadam/zip": "jsr:@quentinadam/zip@0.1.17",
-        "@std/path": "jsr:@std/path@1.1.2"
+        "@std/path": "jsr:@std/path@1.1.2",
+        "@zip-js/zip-js": "jsr:@zip-js/zip-js@2.8.26"
     },
     "fmt": {
         "bracePosition": "sameLine",

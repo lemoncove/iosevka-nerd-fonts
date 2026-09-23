@@ -1,4 +1,4 @@
-import * as zip from "@quentinadam/zip";
+import { Uint8ArrayReader, Uint8ArrayWriter, ZipReader } from "@zip-js/zip-js";
 import { join, parse } from "@std/path";
 
 const version = Deno.args[0];
@@ -20,23 +20,28 @@ for (
 
     let count = 0;
 
-    for (const entry of await zip.extract(await Deno.readFile(archive))) {
-        const { ext, base, name } = parse(entry.name);
+    const reader = new ZipReader(new Uint8ArrayReader(await Deno.readFile(archive)));
+    try {
+        for (const entry of await reader.getEntries()) {
+            const { ext, base, name } = parse(entry.filename);
 
-        if (ext.toLowerCase() !== ".ttf") {
-            continue;
+            if (entry.directory || ext.toLowerCase() !== ".ttf") {
+                continue;
+            }
+
+            await Deno.writeFile(join(destination, base), await entry.getData(new Uint8ArrayWriter()), { createNew: true });
+
+            const variant = name.match(new RegExp(`^${sourceFamily}-(.+)$`))?.[1];
+            if (!variant) {
+                throw new Error(`Unexpected TTF filename: ${base}`);
+            }
+
+            patchPlan.push(`${directory}\t${fontName}-${variant}\t${base}`);
+
+            count++;
         }
-
-        await Deno.writeFile(join(destination, base), entry.data, { createNew: true });
-
-        const style = name.match(new RegExp(`^${sourceFamily}-(.+)$`))?.[1];
-        if (!style) {
-            throw new Error(`Unexpected TTF filename: ${base}`);
-        }
-
-        patchPlan.push(`${directory}\t${fontName}-${style}\t${base}`);
-
-        count++;
+    } finally {
+        await reader.close();
     }
 
     if (!count) {

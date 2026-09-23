@@ -1,4 +1,4 @@
-import * as zip from "@quentinadam/zip";
+import { Uint8ArrayReader, ZipWriter } from "@zip-js/zip-js";
 import { basename, extname, join } from "@std/path";
 
 const version = Deno.args[0];
@@ -15,14 +15,14 @@ for (
         .map((entry) => join("work/output", directory, entry.name))
         .sort();
 
-    const entries = await Promise.all(patched.map(async (path) => ({
-        name: basename(path),
-        data: await Deno.readFile(path),
-    })));
-
     await Deno.mkdir("artifacts", { recursive: true });
     const archive = join("artifacts", `${name}-${version}.zip`);
 
-    await Deno.writeFile(archive, await zip.create(entries));
+    const writer = new ZipWriter((await Deno.open(archive, { write: true, create: true, truncate: true })).writable);
+    for (const path of patched) {
+        await writer.add(basename(path), new Uint8ArrayReader(await Deno.readFile(path)));
+    }
+    await writer.close();
+
     console.log(`Created ${archive} with ${patched.length} fonts`);
 }
