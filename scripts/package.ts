@@ -2,7 +2,9 @@ import { Uint8ArrayReader, ZipWriter } from "@zip-js/zip-js";
 import { basename, extname, join } from "@std/path";
 
 const version = Deno.args[0];
-if (!version) { throw new Error("Expected the Iosevka version as an argument"); }
+if (!version) {
+    throw new Error("Expected the Iosevka version as an argument");
+}
 
 for (
     const [directory, name] of [
